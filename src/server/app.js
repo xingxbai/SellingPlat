@@ -11,6 +11,6 @@ app.get('/table', (req, res) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.json(data)
 })
-app.listen(3000,() => {
-    console.log('listen 3000 port')
+app.listen(3100,() => {
+    console.log('listen 3100 port')
 })
