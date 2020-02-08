@@ -230,11 +230,6 @@ export default {
     created() {
         // this.handleListener();
         // this.changeDate();
-        axios.get('/').then(res => {
-            alert(123)
-            alert(res)
-            console.log(res)
-        })
     },
     // activated() {
     //     this.handleListener();
