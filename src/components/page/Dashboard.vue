@@ -35,8 +35,8 @@
                         <el-card shadow="hover" :body-style="{padding: '0px'}">
                             <div class="grid-content grid-con-1">
                                 <i class="el-icon-lx-people grid-con-icon"></i>
-                                <div class="grid-cont-right">
-                                    <div class="grid-num">1234</div>
+                                <div class="grid-cont-right" @click="handleClick">
+                                    <div class="grid-num">{{this.user.username}}</div>
                                     <div>用户访问量</div>
                                 </div>
                             </div>
@@ -113,6 +113,7 @@
 import Schart from 'vue-schart';
 import bus from '../common/bus';
 import axios from '../../utils/request'
+import { mapState, mapActions, mapMutations } from 'vuex'
 export default {
     name: 'dashboard',
     data() {
@@ -223,6 +224,10 @@ export default {
         Schart
     },
     computed: {
+        ...mapState({
+            user: 'user',
+            goods: 'goods'
+        }),
         role() {
             return this.name === 'admin' ? '超级管理员' : '普通用户';
         }
@@ -239,13 +244,20 @@ export default {
     //     bus.$off('collapse', this.handleBus);
     // },
     methods: {
+        ...mapMutations({
+            setUsername: 'user/setUsername',
+        }),
+        // ...mapActions({
+        //     user: 'user',
+        //     goods: 'goods'
+        // }),
         changeDate() {
             const now = new Date().getTime();
             this.data.forEach((item, index) => {
                 const date = new Date(now - (6 - index) * 86400000);
                 item.name = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
             });
-        }
+        },
         // handleListener() {
         //     bus.$on('collapse', this.handleBus);
         //     // 调用renderChart方法对图表进行重新渲染
@@ -260,6 +272,11 @@ export default {
         //     this.$refs.bar.renderChart();
         //     this.$refs.line.renderChart();
         // }
+        handleClick () {
+            console.log(this.user.username)
+            console.log(this.goods)
+            this.setUsername('998')
+        }
     }
 };
 </script>

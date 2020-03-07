@@ -28,12 +28,13 @@
 </template>
 
 <script>
+import axios from '../../utils/request'
 export default {
     data: function() {
         return {
             param: {
                 username: 'admin',
-                password: '123123',
+                password: 'admin',
             },
             rules: {
                 username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
@@ -43,18 +44,24 @@ export default {
     },
     methods: {
         submitForm() {
+            const params = {
+                username: this.param.username,
+                password: this.param.password
+            }
             this.$refs.login.validate(valid => {
-                if (valid) {
-                    this.$message.success('登录成功');
-                    localStorage.setItem('ms_username', this.param.username);
-                    this.$router.push('/');
-                } else {
-                    this.$message.error('请输入账号和密码');
-                    console.log('error submit!!');
-                    return false;
-                }
-            });
-        },
+                axios({
+                    url: '/second-hand/login',
+                    method: 'post',
+                    data: {...params},
+                    headers: {'Content-Type': 'application/json'}
+                }).then( res => {
+                    window.localStorage["token"] = JSON.stringify(res.data.returnObject);
+                    setTimeout( () => {
+                        this.$router.push('/dashboard');
+                    },500)
+                })
+                });
+            },
     },
 };
 </script>
