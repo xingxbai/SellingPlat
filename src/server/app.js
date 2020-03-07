@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-02-18 20:02:47
- * @LastEditTime: 2020-03-07 18:32:33
+ * @LastEditTime: 2020-03-07 18:46:02
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \SellingPlat\src\server\app.js
@@ -48,7 +48,7 @@ let result = [
 ]
 app.get('/good', (req, res) => {
     res.setHeader('Access-Control-Allow-Origin','*')
-    res.send(result[req.query.id-1])
+    res.send(result)
 })
 app.get('/table', (req, res) => {
     console.log(req)
