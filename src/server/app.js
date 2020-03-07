@@ -1,6 +1,17 @@
+/*
+ * @Author: your name
+ * @Date: 2020-02-18 20:02:47
+ * @LastEditTime: 2020-03-07 18:32:33
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \SellingPlat\src\server\app.js
+ */
 const express = require('express')
+var bodyParser = require('body-parser');
 const data = require('../../public/table.json')
 const app = express()
+app.use(bodyParser.json());
+const axios = require('axios')
 let result = [
     {
         id: 1,
@@ -35,18 +46,142 @@ let result = [
         time:'2020-2-20'
     }
 ]
-app.get('/',(req, res) => {
-    res.setHeader('Content-Type', 'application/json');
-    res.setHeader('Access-Control-Allow-Origin','*')
-    res.send(result)
-})
 app.get('/good', (req, res) => {
     res.setHeader('Access-Control-Allow-Origin','*')
     res.send(result[req.query.id-1])
 })
 app.get('/table', (req, res) => {
+    console.log(req)
     res.header("Access-Control-Allow-Origin", "*");
+    res.send(data)
+})
+
+app.post('/login', (req, res) => {
+    console.log(999)
+    console.log(req.body)
+    res.header("Access-Control-Allow-Origin", "*");
+    //res.header("Content-Type", "application/json")
     res.json(data)
+})
+
+app.get('/limit', (req, res) => {
+    //let role = req.query.id
+    let result = [
+        {
+            icon: 'el-icon-lx-home',
+            index: 'dashboard',
+            title: '系统首页'
+        },
+        {
+            icon: 'el-icon-lx-cascades',
+            index: 'table',
+            title: '基础表格'
+        },
+        {
+            icon: 'el-icon-lx-copy',
+            index: 'tabs',
+            title: 'tab选项卡'
+        },
+        {
+            icon: 'el-icon-lx-calendar',
+            index: '3',
+            title: '表单相关',
+            subs: [
+                {
+                    index: 'form',
+                    title: '基本表单'
+                },
+                {
+                    index: '3-2',
+                    title: '三级菜单',
+                    subs: [
+                        {
+                            index: 'editor',
+                            title: '富文本编辑器'
+                        },
+                        {
+                            index: 'markdown',
+                            title: 'markdown编辑器'
+                        }
+                    ]
+                },
+                {
+                    index: 'upload',
+                    title: '文件上传'
+                }
+            ]
+        },
+        // {
+        //     icon: 'el-icon-lx-emoji',
+        //     index: 'icon',
+        //     title: '自定义图标'
+        // },
+        {
+            icon: 'el-icon-pie-chart',
+            index: 'charts',
+            title: 'schart图表'
+        },
+        // {
+        //     icon: 'el-icon-rank',
+        //     index: '6',
+        //     title: '拖拽组件',
+        //     subs: [
+        //         {
+        //             index: 'drag',
+        //             title: '拖拽列表'
+        //         },
+        //         {
+        //             index: 'dialog',
+        //             title: '拖拽弹框'
+        //         }
+        //     ]
+        // },
+        {
+            icon: 'el-icon-lx-global',
+            index: 'i18n',
+            title: '国际化功能'
+        },
+        {
+            icon: 'el-icon-lx-warn',
+            index: '7',
+            title: '错误处理',
+            subs: [
+                {
+                    index: 'permission',
+                    title: '权限测试'
+                },
+                {
+                    index: '404',
+                    title: '404页面'
+                }
+            ]
+        },
+        {
+            icon: 'el-icon-lx-global',
+            index: 'i1s8n',
+            title: '我是系统管理员才可见'
+        },{
+            icon: 'el-icon-lx-global',
+            index: 'i18dn',
+            title: '我是商铺管理员'
+        },{
+            icon: 'el-icon-lx-global',
+            index: 'i18dssn',
+            title: '我是商品管理员',
+            subs: [
+                {
+                    index: 'permission',
+                    title: '商品管理员A'
+                },
+                {
+                    index: '404',
+                    title: '商品管理员B'
+                }
+            ]
+        },
+    ]
+    res.header("Access-Control-Allow-Origin", "*");
+    res.json(result)
 })
 app.listen(3100,() => {
     console.log('listen 3100 port')
