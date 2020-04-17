@@ -50,6 +50,7 @@
 </template>
 <script>
 import bus from '../common/bus';
+import axios from '../../utils/request'
 export default {
     data() {
         return {
@@ -69,8 +70,11 @@ export default {
         // 用户名下拉菜单选择事件
         handleCommand(command) {
             if (command == 'loginout') {
-                localStorage.removeItem('ms_username');
-                this.$router.push('/login');
+                axios.get('/api/user/logout')
+                this.$router.push('/login').then(res=>{
+                    localStorage.setItem('token','');
+                })
+                localStorage.setItem('token','');
             }
         },
         // 侧边栏折叠

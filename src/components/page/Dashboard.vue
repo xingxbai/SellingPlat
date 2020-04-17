@@ -19,14 +19,18 @@
                         <span>东莞</span>
                     </div>
                 </el-card>
-                <el-card shadow="hover" style="height:252px;">
+                <el-card shadow="hover" style="height:382px;">
                     <div slot="header" class="clearfix">
-                        <span>语言详情</span>
-                    </div>Vue
-                    <el-progress :percentage="71.3" color="#42b983"></el-progress>JavaScript
-                    <el-progress :percentage="24.1" color="#f1e05a"></el-progress>CSS
-                    <el-progress :percentage="13.7"></el-progress>HTML
-                    <el-progress :percentage="5.9" color="#f56c6c"></el-progress>
+                        <span>销售详情</span>
+                    </div>
+                    动漫/周边<el-progress :percentage="71.3" color="#42b983"></el-progress>
+                    农用物资<el-progress :percentage="24.1" color="#f1e05a"></el-progress>
+                    生鲜水果<el-progress :percentage="13.7"></el-progress>
+                    网络设备<el-progress :percentage="5.9" color="#f56c6c"></el-progress>
+                    钟表眼镜<el-progress :percentage="5.9" color="#52c3dd"></el-progress>
+                    动漫/周边<el-progress :percentage="71.3" color="#42b983"></el-progress>
+                    农用物资<el-progress :percentage="24.1" color="#f1e05a"></el-progress>
+                    生鲜水果<el-progress :percentage="13.7"></el-progress>
                 </el-card>
             </el-col>
             <el-col :span="16">
@@ -65,10 +69,10 @@
                         </el-card>
                     </el-col>
                 </el-row>
-                <el-card shadow="hover" style="height:403px;">
+                <el-card shadow="hover" style="min-height:435px;">
                     <div slot="header" class="clearfix">
-                        <span>待办事项</span>
-                        <el-button style="float: right; padding: 3px 0" type="text">添加</el-button>
+                        <span>用户反馈</span>
+                        <!-- <el-button style="float: right; padding: 3px 0" type="text">添加</el-button> -->
                     </div>
                     <el-table :show-header="false" :data="todoList" style="width:100%;">
                         <el-table-column width="40">
@@ -85,12 +89,18 @@
                             </template>
                         </el-table-column>
                         <el-table-column width="60">
-                            <template>
-                                <i class="el-icon-edit"></i>
-                                <i class="el-icon-delete"></i>
+                            <template  slot-scope="scope">
+                                <i class="el-icon-edit" style="margin-right:10px" @click="editEvent(scope.row)"></i>
+                                <!-- <i class="el-icon-delete" @click="deleteEvent(scope.row)"></i> -->
                             </template>
                         </el-table-column>
                     </el-table>
+                    <el-pagination
+                        small
+                        style="margin-top:20px"
+                        layout="prev, pager, next"
+                        :total="50">
+                    </el-pagination>
                 </el-card>
             </el-col>
         </el-row>
@@ -106,6 +116,17 @@
                 </el-card>
             </el-col>
         </el-row>
+        <el-dialog
+            title="用户反馈"
+            :visible.sync="dialogVisible"
+            width="30%"
+            :before-close="handleClose">
+            <span>{{currentValue.title}}</span>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="dialogVisible = false">待办</el-button>
+                <el-button type="primary" @click="submitEvent">处理</el-button>
+            </span>
+        </el-dialog>
     </div>
 </template>
 
@@ -119,6 +140,11 @@ export default {
     data() {
         return {
             name: localStorage.getItem('ms_username'),
+            dialogVisible: false,
+            currentValue: {
+                title:'',
+                status: false
+            },
             todoList: [
                 {
                     title: '今天要修复100个bug',
@@ -141,6 +167,21 @@ export default {
                     status: true
                 },
                 {
+                    title: '今天要写100行代码加几个bug吧',
+                    status: true
+                },
+                {
+                    title: '今天要写100行代码加几个bug吧',
+                    status: true
+                },
+                {
+                    title: '今天要写100行代码加几个bug吧',
+                    status: true
+                },
+                {
+                    title: '今天要写100行代码加几个bug吧',
+                    status: true
+                },{
                     title: '今天要写100行代码加几个bug吧',
                     status: true
                 }
@@ -257,6 +298,19 @@ export default {
                 const date = new Date(now - (6 - index) * 86400000);
                 item.name = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
             });
+        },
+        editEvent(value) {
+            this.currentValue = value
+            this.dialogVisible = true
+        },
+        deleteEvent(value) {
+            this.currentValue = value
+        },
+        handleClose() {
+            this.dialogVisible = false
+        },
+        submitEvent() {
+            this.dialogVisible = false
         },
         // handleListener() {
         //     bus.$on('collapse', this.handleBus);

@@ -50,15 +50,17 @@ export default {
             }
             this.$refs.login.validate(valid => {
                 axios({
-                    url: '/second-hand/login',
+                    url: '/login',
                     method: 'post',
                     data: {...params},
                     headers: {'Content-Type': 'application/json'}
                 }).then( res => {
-                    window.localStorage["token"] = JSON.stringify(res.data.returnObject);
-                    setTimeout( () => {
-                        this.$router.push('/dashboard');
-                    },500)
+                    if( res.code !== 0) {
+                        this.$message.error(res.message)
+                        return
+                    }
+                    window.localStorage["token"] = JSON.stringify(res.data);
+                    this.$router.push('/dashboard');
                 })
                 });
             },
