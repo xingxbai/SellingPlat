@@ -22,9 +22,8 @@
                 class="table"
                 ref="multipleTable"
                 header-cell-class-name="table-header"
-                @selection-change="handleSelectionChange"
             >
-                <el-table-column label="ID" align="center" width="95px" prop="id"></el-table-column>
+                <el-table-column label="ID" align="center" width="95px" prop="userId"></el-table-column>
                 <el-table-column v-for="(item,index) in tableTitleData"
                                 :key="index"
                                 :prop="item.prop"
@@ -40,10 +39,12 @@
             <div class="pagination">
                 <el-pagination
                     background
-                    layout="total, prev, pager, next"
                     :current-page="query.pageIndex"
+                    @size-change="handleSizeChange"
                     :page-size="query.pageSize"
                     :total="pageTotal"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :page-sizes="[10, 20, 50, 100]"
                     @current-change="handlePageChange"
                 ></el-pagination>
             </div>
@@ -112,7 +113,7 @@ export default {
                 }
             ],
             tableData: [{
-                id:1,
+                userId:2574,
                 nickName: 999,
                 username: 123456789,
                 password: 123456789
@@ -131,7 +132,7 @@ export default {
             multipleSelection: [],
             delList: [],
             editVisible: false,
-            pageTotal: 0,
+            pageTotal: 36,
             editValue: {
                 nickName:'',
                 username:'',
@@ -147,12 +148,24 @@ export default {
             id: -1
         };
     },
-    created() {
+    mounted() {
         this.getData();
     },
     methods: {
-        // 获取 easy-mock 的模拟数据
         getData() {
+            const params =  this.query
+            axios({
+                methods: 'get',
+                url: '/api/user/find',
+                params
+            }).then( res => {
+                if (res.code !== 0) {
+                    this.$message.error(res.message)
+                    return
+                }
+                this.tableData = res.data.list
+                this.pageTotal = res.data.total
+            })
         },
 
         handleClick () {
@@ -162,33 +175,6 @@ export default {
         handleSearch() {
             // this.$set(this.query, 'pageIndex', 1);
             this.getData();
-            console.log(this.query)
-        },
-        // 删除操作
-        handleDelete(index, row) {
-            // 二次确认删除
-            this.$confirm('确定要删除吗？', '提示', {
-                type: 'warning'
-            })
-                .then(() => {
-                    this.$message.success('删除成功');
-                    this.tableData.splice(index, 1);
-                })
-                .catch(() => {});
-        },
-        // 多选操作
-        handleSelectionChange(val) {
-            this.multipleSelection = val;
-        },
-        delAllSelection() {
-            const length = this.multipleSelection.length;
-            let str = '';
-            this.delList = this.delList.concat(this.multipleSelection);
-            for (let i = 0; i < length; i++) {
-                str += this.multipleSelection[i].name + ' ';
-            }
-            this.$message.error(`删除了${str}`);
-            this.multipleSelection = [];
         },
         // 编辑操作
         handleEdit(value) {
@@ -201,11 +187,19 @@ export default {
             cancelButtonText: '取消',
             type: 'warning'
             }).then(() => {
-                //TODO ajax删除
-                this.$message({
-                    type: 'success',
-                    message: '删除成功!'
-                });
+                axios.delete('/api/user/del/'+value.userId).then (res => {
+                    if( res.code !== 0) {
+                        this.$message.error = res.message
+                        return
+                    }
+                    this.query.pageIndex = 1
+                    this.pageSize = 10
+                    this.getData()
+                    this.$message({
+                        type: 'success',
+                        message: '删除成功!'
+                    });
+                })
             }).catch(() => {
             this.$message({
                 type: 'info',
@@ -215,13 +209,35 @@ export default {
         },
         // 保存编辑
         saveEdit() {
-            this.editVisible = false;
-            //TODO ajax
-            console.log(this.editValue)
+            let params = this.editValue
+            params = {
+                userId: params.userId,
+                nickName: params.nickName,
+                password: params.password,
+                username: params.username
+            }
+            axios.post('/api/user/update',params).then(res => {
+                if (res.code !== 0) {
+                    this.$message.error(res.message)
+                    return
+                }
+                this.editVisible = false
+                this.query = {
+                    key: 'all',
+                    value: '',
+                    pageIndex: 1,
+                    pageSize: 10
+                },
+                this.getData()
+            })
         },
         // 分页导航
         handlePageChange(val) {
             this.$set(this.query, 'pageIndex', val);
+            this.getData();
+        },
+        handleSizeChange(val) {
+            this.query.pageSize = val
             this.getData();
         },
 
@@ -230,9 +246,21 @@ export default {
         },
 
         saveAddUser() {
-            //TODO ajax
             const params = this.addUserValue
-            console.log(params)
+            axios.post('/api/user/add',params).then(res => {
+                if (res.code !== 0) {
+                    this.$message.error(res.message)
+                    return
+                }
+                this.addUserVisible = false
+                this.query = {
+                    key: 'all',
+                    value: '',
+                    pageIndex: 1,
+                    pageSize: 10
+                },
+                this.getData()
+            })
         }
     }
 };

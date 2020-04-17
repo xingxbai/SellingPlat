@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-02-18 20:02:47
- * @LastEditTime: 2020-04-17 14:13:37
+ * @LastEditTime: 2020-04-17 20:29:54
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \SellingPlat\src\main.js
@@ -32,8 +32,8 @@ const i18n = new VueI18n({
 router.beforeEach((to, from, next) => {
     document.title = `${to.meta.title} | vue-manage-system`;
     const role = localStorage.getItem('token');
-    console.log(999,!role)
     if (!role && to.path !== '/login') {
+        console.log(1111)
         next('/login');
     }
     // else if (to.meta.permission) {

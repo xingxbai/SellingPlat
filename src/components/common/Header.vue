@@ -56,7 +56,7 @@ export default {
         return {
             collapse: false,
             fullscreen: false,
-            name: 'linxin',
+            name: 'xingbai',
             message: 2
         };
     },
@@ -70,7 +70,7 @@ export default {
         // 用户名下拉菜单选择事件
         handleCommand(command) {
             if (command == 'loginout') {
-                axios.get('/api/user/logout')
+                axios.get('/logout')
                 this.$router.push('/login').then(res=>{
                     localStorage.setItem('token','');
                 })
