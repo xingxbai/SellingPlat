@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-02-18 20:02:47
- * @LastEditTime: 2020-04-17 15:14:09
+ * @LastEditTime: 2020-04-18 21:17:47
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \SellingPlat\src\components\page\Markdown.vue
@@ -42,6 +42,7 @@
         methods: {
             // 将图片上传到服务器，返回地址替换到md中
             $imgAdd(pos, $file){
+                console.log(pos)
                 var formdata = new FormData();
                 formdata.append('file', $file);
                 // 这里没有服务器供大家尝试，可将下面上传接口替换为你自己的服务器接口
@@ -51,6 +52,11 @@
                     data: formdata,
                     headers: { 'Content-Type': 'multipart/form-data' },
                 }).then((url) => {
+                    if (url.code !== 0) {
+                        this.$message.error(url.message)
+                        return 
+                    }
+                    url = url.data[0]
                     this.$refs.md.$img2Url(pos, url);
                 })
             },
@@ -59,9 +65,35 @@
                 this.html = render;
             },
             submit(){
-                console.log(this.content);
-                console.log(this.html);
-                this.$message.success('提交成功！');
+
+                this.$prompt('请输入公告标题', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                }).then(({ value }) => {
+                    if ( !value ) {
+                        this.$message.error('请输入公告标题')
+                        return
+                    }
+                    const body = {
+                        title: value,
+                        content: this.html
+                    }
+                    axios.post('/api/notice/add', body)
+                    .then(res => {
+                        if (res.code !== 0) {
+                            this.$message.error(res.message)
+                        }
+                    })
+                    this.$router.push({
+                        path:'/form'
+                    })
+                }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '取消输入'
+                });
+                });
+                //this.$message.success('提交成功！');
             }
         }
     }

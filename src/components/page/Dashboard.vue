@@ -72,7 +72,6 @@
                 <el-card shadow="hover" style="min-height:435px;">
                     <div slot="header" class="clearfix">
                         <span>用户反馈</span>
-                        <!-- <el-button style="float: right; padding: 3px 0" type="text">添加</el-button> -->
                     </div>
                     <el-table :show-header="false" :data="todoList" style="width:100%;">
                         <el-table-column width="40">

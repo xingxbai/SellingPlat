@@ -40,10 +40,11 @@ export default new Router({
                     meta: { title: '基本公告' }
                 },
                 {
-                    // 富文本编辑器组件
-                    path: '/editor',
-                    component: () => import(/* webpackChunkName: "editor" */ '../components/page/VueEditor.vue'),
-                    meta: { title: '富文本编辑器' }
+                    
+                    path: '/detail/:id',
+                    name: 'detail',
+                    component: () => import(/* webpackChunkName: "editor" */ '../components/page/noticeDetail.vue'),
+                    meta: { title: '公告详情' }
                 },
                 {
                     // markdown组件

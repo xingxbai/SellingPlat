@@ -83,7 +83,7 @@ export default {
                         },
                         {
                             index: 'markdown',
-                            title: '公告编辑'
+                            title: '添加公告'
                         }
                     ]
                 }
