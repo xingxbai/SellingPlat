@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-02-18 20:02:47
- * @LastEditTime: 2020-04-18 21:17:47
+ * @LastEditTime: 2020-04-18 22:13:41
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \SellingPlat\src\components\page\Markdown.vue
@@ -65,7 +65,10 @@
                 this.html = render;
             },
             submit(){
-
+                if (this.html.length >= 15000) {
+                    this.$message.error('输入长度过大，< 150000')
+                    return
+                }
                 this.$prompt('请输入公告标题', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
