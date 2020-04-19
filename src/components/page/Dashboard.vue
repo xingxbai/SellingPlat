@@ -103,7 +103,7 @@
                 </el-card>
             </el-col>
         </el-row>
-        <el-row :gutter="20">
+        <!-- <el-row :gutter="20">
             <el-col :span="12">
                 <el-card shadow="hover">
                     <el-date-picker
@@ -120,9 +120,21 @@
                     </el-date-picker>
                     <schart ref="bar" class="schart" canvasId="bar" :options="options"></schart>
                 </el-card>
-            </el-col>
-            <el-col :span="12">
+            </el-col> -->
+            <el-col :span="24">
                 <el-card shadow="hover">
+                    <el-date-picker
+                        v-model="dateLine"
+                        format="yyyy-MM-dd HH:mm:ss"
+                        value-format="yyyy-MM-dd HH:mm:ss"
+                        type="datetimerange"
+                        @change="dateLineChange"
+                        :picker-options="pickerOptions"
+                        range-separator="至"
+                        start-placeholder="开始日期"
+                        end-placeholder="结束日期"
+                        align="right">
+                    </el-date-picker>
                     <schart ref="line" class="schart" canvasId="line" :options="options2"></schart>
                 </el-card>
             </el-col>
@@ -235,20 +247,78 @@ export default {
                     text: '各品类销售图'
                 },
                 xRorate: 25,
-                labels: ['4.13', '4.14', '4.15', '4.16', '4.17', '4.18', '4.19'],
+                labels: [''],
                 datasets: [
                     {
                         label: '家电',
-                        data: [234, 278, 270, 190, 230, 145,245]
+                        data: [234]
                     },
                     {
                         label: '百货',
-                        data: [164, 178, 190, 135, 160, 145,245]
+                        data: [164]
                     },
                     {
                         label: '食品',
-                        data: [144, 198, 150, 235, 120, 145,245]
-                    }
+                        data: [144]
+                    },{
+                        label: '家电',
+                        data: [234]
+                    },
+                    {
+                        label: '百货',
+                        data: [164]
+                    },
+                    {
+                        label: '食品',
+                        data: [144]
+                    },{
+                        label: '家电',
+                        data: [234]
+                    },
+                    {
+                        label: '百货',
+                        data: [164]
+                    },
+                    {
+                        label: '食品',
+                        data: [144],
+                        fillColor: 'rgba(241, 49, 74, 0.9)',
+                    },{
+                        label: '家电',
+                        fillColor: 'rgba(215, 49, 74, 0.5)',
+                        data: [234]
+                    },
+                    {
+                        label: '百货',
+                        data: [164]
+                    },
+                    {
+                        label: '食品',
+                        data: [144]
+                    },{
+                        label: '家电',
+                        data: [234]
+                    },
+                    {
+                        label: '百货',
+                        data: [164]
+                    },
+                    {
+                        label: '食品',
+                        data: [144]
+                    },{
+                        label: '家电',
+                        data: [234]
+                    },
+                    {
+                        label: '百货',
+                        fillColor: 'rgba(241, 49, 74, 0.5)',
+                        data: [164]
+                    },
+                    {
+                        label: '食品',
+                        data: [144]
+                    },
                 ]
             },
             options2: {
@@ -378,6 +448,9 @@ export default {
                 list: this.options.datasets
             }
             console.log(response)
+        },
+        dateLineChange () {
+            
         }
     }
 };
@@ -491,6 +564,6 @@ export default {
 
 .schart {
     width: 100%;
-    height: 300px;
+    height: 600px;
 }
 </style>

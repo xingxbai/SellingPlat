@@ -7,16 +7,16 @@
                 </el-breadcrumb-item>
             </el-breadcrumb>
         </div>
-        <div class="container">
-            <div class="plugins-tips">
+        <div class="container" style="padding: 0">
+            <!-- <div class="plugins-tips">
                 vue-schart：vue.js封装sChart.js的图表组件。
                 访问地址：
                 <a
                     href="https://github.com/lin-xin/vue-schart"
                     target="_blank"
                 >vue-schart</a>
-            </div>
-            <div class="schart-box">
+            </div> -->
+            <!-- <div class="schart-box">
                 <div class="content-title">柱状图</div>
                 <schart class="schart" canvasId="bar" :options="options1"></schart>
             </div>
@@ -31,7 +31,24 @@
             <div class="schart-box">
                 <div class="content-title">环形图</div>
                 <schart class="schart" canvasId="ring" :options="options4"></schart>
-            </div>
+            </div> -->
+
+
+            <el-card shadow="hover">
+                <el-date-picker
+                    v-model="dateBar"
+                    format="yyyy-MM-dd HH:mm:ss"
+                    value-format="yyyy-MM-dd HH:mm:ss"
+                    type="datetimerange"
+                    @change="dateBarChange"
+                    :picker-options="pickerOptions"
+                    range-separator="至"
+                    start-placeholder="开始日期"
+                    end-placeholder="结束日期"
+                    align="right">
+                </el-date-picker>
+                <schart ref="bar" class="schart" canvasId="bar" :options="options"></schart>
+            </el-card>
         </div>
     </div>
 </template>
@@ -123,8 +140,126 @@ export default {
                         data: [500, 500, 500]
                     }
                 ]
+            },
+            options: {
+                type: 'bar',
+                title: {
+                    text: '各品类销售图'
+                },
+                xRorate: 25,
+                labels: [''],
+                datasets: [
+                    {
+                        label: '家电',
+                        data: [234]
+                    },
+                    {
+                        label: '百货',
+                        data: [164]
+                    },
+                    {
+                        label: '食品',
+                        data: [144]
+                    },{
+                        label: '家电',
+                        data: [234]
+                    },
+                    {
+                        label: '百货',
+                        data: [164]
+                    },
+                    {
+                        label: '食品',
+                        data: [144]
+                    },{
+                        label: '家电',
+                        data: [234]
+                    },
+                    {
+                        label: '百货',
+                        data: [164]
+                    },
+                    {
+                        label: '食品',
+                        data: [144],
+                        fillColor: 'rgba(241, 49, 74, 0.9)',
+                    },{
+                        label: '家电',
+                        fillColor: 'rgba(215, 49, 74, 0.5)',
+                        data: [234]
+                    },
+                    {
+                        label: '百货',
+                        data: [164]
+                    },
+                    {
+                        label: '食品',
+                        data: [144]
+                    },{
+                        label: '家电',
+                        data: [234]
+                    },
+                    {
+                        label: '百货',
+                        data: [164]
+                    },
+                    {
+                        label: '食品',
+                        data: [144]
+                    },{
+                        label: '家电',
+                        data: [234]
+                    },
+                    {
+                        label: '百货',
+                        fillColor: 'rgba(241, 49, 74, 0.5)',
+                        data: [164]
+                    },
+                    {
+                        label: '食品',
+                        data: [144]
+                    },
+                ]
+            },
+            dateBar:[],
+            pickerOptions: {
+                shortcuts: [{
+                    text: '最近一周',
+                    onClick(picker) {
+                    const end = new Date();
+                    const start = new Date();
+                    start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                    picker.$emit('pick', [start, end]);
+                    }
+                }, {
+                    text: '最近一个月',
+                    onClick(picker) {
+                    const end = new Date();
+                    const start = new Date();
+                    start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                    picker.$emit('pick', [start, end]);
+                    }
+                }, {
+                    text: '最近三个月',
+                    onClick(picker) {
+                    const end = new Date();
+                    const start = new Date();
+                    start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                    picker.$emit('pick', [start, end]);
+                    }
+                }]
             }
         };
+    },
+    methods: {
+        dateBarChange () {
+            console.log(this.dateBar)
+            const response = {
+                labels: this.options.labels,
+                list: this.options.datasets
+            }
+            console.log(response)
+        },
     }
 };
 </script>
@@ -135,8 +270,8 @@ export default {
     margin: 20px;
 }
 .schart {
-    width: 600px;
-    height: 400px;
+    width: 100%;
+    height: 75vh;
 }
 .content-title {
     clear: both;

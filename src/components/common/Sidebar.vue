@@ -63,6 +63,11 @@ export default {
                     title: '系统首页'
                 },
                 {
+                    icon: 'el-icon-time',
+                    index: 'charts',
+                    title: '数据统计'
+                },
+                {
                     icon: 'el-icon-lx-cascades',
                     index: 'table',
                     title: '添加用户'

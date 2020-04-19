@@ -60,6 +60,7 @@ export default {
                         return
                     }
                     window.localStorage["token"] = JSON.stringify(res.data);
+                    window.localStorage["username"] = this.param.username
                     this.$router.push('/dashboard');
                 })
                 });
