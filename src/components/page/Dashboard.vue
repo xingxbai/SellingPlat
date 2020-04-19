@@ -106,6 +106,18 @@
         <el-row :gutter="20">
             <el-col :span="12">
                 <el-card shadow="hover">
+                    <el-date-picker
+                        v-model="dateBar"
+                        format="yyyy-MM-dd HH:mm:ss"
+                        value-format="yyyy-MM-dd HH:mm:ss"
+                        type="datetimerange"
+                        @change="dateBarChange"
+                        :picker-options="pickerOptions"
+                        range-separator="至"
+                        start-placeholder="开始日期"
+                        end-placeholder="结束日期"
+                        align="right">
+                    </el-date-picker>
                     <schart ref="bar" class="schart" canvasId="bar" :options="options"></schart>
                 </el-card>
             </el-col>
@@ -140,6 +152,8 @@ export default {
         return {
             name: localStorage.getItem('ms_username'),
             dialogVisible: false,
+            dateBar: [],
+            dateLine: [],
             currentValue: {
                 title:'',
                 status: false
@@ -218,22 +232,22 @@ export default {
             options: {
                 type: 'bar',
                 title: {
-                    text: '最近一周各品类销售图'
+                    text: '各品类销售图'
                 },
                 xRorate: 25,
-                labels: ['周一', '周二', '周三', '周四', '周五'],
+                labels: ['4.13', '4.14', '4.15', '4.16', '4.17', '4.18', '4.19'],
                 datasets: [
                     {
                         label: '家电',
-                        data: [234, 278, 270, 190, 230]
+                        data: [234, 278, 270, 190, 230, 145,245]
                     },
                     {
                         label: '百货',
-                        data: [164, 178, 190, 135, 160]
+                        data: [164, 178, 190, 135, 160, 145,245]
                     },
                     {
                         label: '食品',
-                        data: [144, 198, 150, 235, 120]
+                        data: [144, 198, 150, 235, 120, 145,245]
                     }
                 ]
             },
@@ -257,6 +271,33 @@ export default {
                         data: [74, 118, 200, 235, 90]
                     }
                 ]
+            },
+            pickerOptions: {
+                shortcuts: [{
+                    text: '最近一周',
+                    onClick(picker) {
+                    const end = new Date();
+                    const start = new Date();
+                    start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                    picker.$emit('pick', [start, end]);
+                    }
+                }, {
+                    text: '最近一个月',
+                    onClick(picker) {
+                    const end = new Date();
+                    const start = new Date();
+                    start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                    picker.$emit('pick', [start, end]);
+                    }
+                }, {
+                    text: '最近三个月',
+                    onClick(picker) {
+                    const end = new Date();
+                    const start = new Date();
+                    start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                    picker.$emit('pick', [start, end]);
+                    }
+                }]
             }
         };
     },
@@ -329,6 +370,14 @@ export default {
             console.log(this.user.username)
             console.log(this.goods)
             this.setUsername('998')
+        },
+        dateBarChange () {
+            console.log(this.dateBar)
+            const response = {
+                labels: this.options.labels,
+                list: this.options.datasets
+            }
+            console.log(response)
         }
     }
 };
