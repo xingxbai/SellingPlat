@@ -6,31 +6,29 @@
                     <div class="user-info">
                         <img src="../../assets/img/img.jpg" class="user-avator" alt />
                         <div class="user-info-cont">
-                            <div class="user-info-name">{{name}}</div>
+                            <div class="user-info-name">{{userInfo.userName}}</div>
                             <div>{{role}}</div>
                         </div>
                     </div>
                     <div class="user-info-list">
                         上次登录时间：
-                        <span>2019-11-01</span>
+                        <span>{{userInfo.editTime}}</span>
                     </div>
                     <div class="user-info-list">
                         上次登录地点：
-                        <span>东莞</span>
+                        <span>中山</span>
                     </div>
                 </el-card>
-                <el-card shadow="hover" style="height:382px;">
+                <el-card shadow="hover" style="height:462px;">
                     <div slot="header" class="clearfix">
-                        <span>销售详情</span>
+                        <span>商品详情</span>
                     </div>
-                    动漫/周边<el-progress :percentage="71.3" color="#42b983"></el-progress>
-                    农用物资<el-progress :percentage="24.1" color="#f1e05a"></el-progress>
-                    生鲜水果<el-progress :percentage="13.7"></el-progress>
-                    网络设备<el-progress :percentage="5.9" color="#f56c6c"></el-progress>
-                    钟表眼镜<el-progress :percentage="5.9" color="#52c3dd"></el-progress>
-                    动漫/周边<el-progress :percentage="71.3" color="#42b983"></el-progress>
-                    农用物资<el-progress :percentage="24.1" color="#f1e05a"></el-progress>
-                    生鲜水果<el-progress :percentage="13.7"></el-progress>
+                    <!-- <template v-for="(item,index) in goodsDetail">
+                        {{item.label}}<el-progress :percentage="item.total" :color="colorFiltersss(index)"></el-progress>
+                    </template> -->
+                    <template v-for="(item,index) in goodsDetail">
+                        {{item.label}}<el-progress :percentage="item.total" :color="colorFiltersss(index)"></el-progress>
+                    </template>
                 </el-card>
             </el-col>
             <el-col :span="16">
@@ -39,8 +37,8 @@
                         <el-card shadow="hover" :body-style="{padding: '0px'}">
                             <div class="grid-content grid-con-1">
                                 <i class="el-icon-lx-people grid-con-icon"></i>
-                                <div class="grid-cont-right" @click="handleClick">
-                                    <div class="grid-num">{{this.user.username}}</div>
+                                <div class="grid-cont-right">
+                                    <div class="grid-num">{{this.site.viewNum}}</div>
                                     <div>用户访问量</div>
                                 </div>
                             </div>
@@ -51,7 +49,7 @@
                             <div class="grid-content grid-con-2">
                                 <i class="el-icon-lx-notice grid-con-icon"></i>
                                 <div class="grid-cont-right">
-                                    <div class="grid-num">321</div>
+                                    <div class="grid-num">{{this.site.noticeNum}}</div>
                                     <div>系统消息</div>
                                 </div>
                             </div>
@@ -62,28 +60,23 @@
                             <div class="grid-content grid-con-3">
                                 <i class="el-icon-lx-goods grid-con-icon"></i>
                                 <div class="grid-cont-right">
-                                    <div class="grid-num">5000</div>
+                                    <div class="grid-num">{{this.site.productNum}}</div>
                                     <div>数量</div>
                                 </div>
                             </div>
                         </el-card>
                     </el-col>
                 </el-row>
-                <el-card shadow="hover" style="min-height:435px;">
+                <el-card shadow="hover" style="min-height:613px;">
                     <div slot="header" class="clearfix">
                         <span>用户反馈</span>
                     </div>
                     <el-table :show-header="false" :data="todoList" style="width:100%;">
-                        <el-table-column width="40">
-                            <template slot-scope="scope">
-                                <el-checkbox v-model="scope.row.status"></el-checkbox>
-                            </template>
-                        </el-table-column>
                         <el-table-column>
                             <template slot-scope="scope">
                                 <div
                                     class="todo-item"
-                                    :class="{'todo-item-del': scope.row.status}"
+                                    :class="{'todo-item-del': scope.row.status === 1}"
                                 >{{scope.row.title}}</div>
                             </template>
                         </el-table-column>
@@ -97,8 +90,9 @@
                     <el-pagination
                         small
                         style="margin-top:20px"
+                        @current-change="currentPage"
                         layout="prev, pager, next"
-                        :total="50">
+                        :total="total">
                     </el-pagination>
                 </el-card>
             </el-col>
@@ -145,6 +139,7 @@
             width="30%"
             :before-close="handleClose">
             <span>{{currentValue.title}}</span>
+            <div>{{currentValue.content}}</div>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogVisible = false">待办</el-button>
                 <el-button type="primary" @click="submitEvent">处理</el-button>
@@ -170,47 +165,7 @@ export default {
                 title:'',
                 status: false
             },
-            todoList: [
-                {
-                    title: '今天要修复100个bug',
-                    status: false
-                },
-                {
-                    title: '今天要修复100个bug',
-                    status: false
-                },
-                {
-                    title: '今天要写100行代码加几个bug吧',
-                    status: false
-                },
-                {
-                    title: '今天要修复100个bug',
-                    status: false
-                },
-                {
-                    title: '今天要修复100个bug',
-                    status: true
-                },
-                {
-                    title: '今天要写100行代码加几个bug吧',
-                    status: true
-                },
-                {
-                    title: '今天要写100行代码加几个bug吧',
-                    status: true
-                },
-                {
-                    title: '今天要写100行代码加几个bug吧',
-                    status: true
-                },
-                {
-                    title: '今天要写100行代码加几个bug吧',
-                    status: true
-                },{
-                    title: '今天要写100行代码加几个bug吧',
-                    status: true
-                }
-            ],
+            todoList: [],
             data: [
                 {
                     name: '2018/09/04',
@@ -368,7 +323,24 @@ export default {
                     picker.$emit('pick', [start, end]);
                     }
                 }]
-            }
+            },
+            site: {
+                viewNum: 0,
+                noticeNum: 0,
+                productNum: 0
+            },
+            userInfo: {
+                userName: "admin",
+                editTime: "2020-04-19 22:32:56",
+                icon: "http://47.93.117.14:8080/second-hand/fileSystem/files/images.jpg",
+            },
+            pagination: {
+                pageIndex: 1,
+                pageSize: 12
+            },
+            total: 0,
+            goodsDetail:[],
+            colorFilter: ['#42b983','#f1e05a','#f56c6c','#52c3dd','#42b983','#f1e05a','#e6a23c','#52c3dd']
         };
     },
     components: {
@@ -380,12 +352,14 @@ export default {
             goods: 'goods'
         }),
         role() {
-            return this.name === 'admin' ? '超级管理员' : '普通用户';
+            return this.userInfo.userName === 'admin' ? '超级管理员' : '普通用户';
         }
     },
     created() {
-        // this.handleListener();
-        // this.changeDate();
+        this.getSite()
+        this.getUserInfo()
+        this.getTodoList()
+        this.getGoodsDetail()
     },
     // activated() {
     //     this.handleListener();
@@ -398,10 +372,60 @@ export default {
         ...mapMutations({
             setUsername: 'user/setUsername',
         }),
-        // ...mapActions({
-        //     user: 'user',
-        //     goods: 'goods'
-        // }),
+        colorFiltersss(index){
+            console.log(this.colorFilter[index])
+            return this.colorFilter[index]
+        },
+        getSite () {
+            axios({
+                url: '/api/data/site'
+            }).then(res => {
+                if(res.code !== 0 ) {
+                    this.$message.error(res.message)
+                    return
+                }
+                this.site = res.data
+            })
+        },
+        getUserInfo () {
+            axios({
+                url: '/api/sysHome/get/userInfo'
+            }).then(res => {
+                if(res.code !== 0 ) {
+                    this.$message.error(res.message)
+                    return
+                }
+                this.userInfo = res.data
+            })
+        },
+        getTodoList () {
+            const params = this.pagination
+            axios({
+                url: '/api/sysHome/list',
+                params
+            }).then(res => {
+                if(res.code !== 0 ) {
+                    this.$message.error(res.message)
+                    return
+                }
+                this.todoList = res.data.list
+                this.total = res.data.total
+            })
+        },
+        getGoodsDetail() {
+            axios({
+                url: '/api/data/productDetail'
+            }).then(res => {
+                if(res.code !== 0 ) {
+                    this.$message.error(res.message)
+                    return
+                }
+                this.goodsDetail = res.data
+                this.goodsDetail.map( item=> {
+                    item.total = item.total*100
+                })
+            })
+        },
         changeDate() {
             const now = new Date().getTime();
             this.data.forEach((item, index) => {
@@ -420,7 +444,14 @@ export default {
             this.dialogVisible = false
         },
         submitEvent() {
-            this.dialogVisible = false
+            const body = {
+                ids: [this.currentValue.feedbackId]
+            }
+            axios.post('/api/sysHome/update/status',body).then(res=> {
+                if(res.code !== 0) return
+                this.dialogVisible = false
+                this.getTodoList()
+            })
         },
         // handleListener() {
         //     bus.$on('collapse', this.handleBus);
@@ -438,8 +469,12 @@ export default {
         // }
         handleClick () {
             console.log(this.user.username)
-            console.log(this.goods)
+            console.log(this.goods) 
             this.setUsername('998')
+        },
+        currentPage (value) {
+            this.pagination.pageIndex = value
+            this.getTodoList()
         },
         dateBarChange () {
             console.log(this.dateBar)

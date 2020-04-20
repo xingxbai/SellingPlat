@@ -8,32 +8,6 @@
             </el-breadcrumb>
         </div>
         <div class="container" style="padding: 0">
-            <!-- <div class="plugins-tips">
-                vue-schart：vue.js封装sChart.js的图表组件。
-                访问地址：
-                <a
-                    href="https://github.com/lin-xin/vue-schart"
-                    target="_blank"
-                >vue-schart</a>
-            </div> -->
-            <!-- <div class="schart-box">
-                <div class="content-title">柱状图</div>
-                <schart class="schart" canvasId="bar" :options="options1"></schart>
-            </div>
-            <div class="schart-box">
-                <div class="content-title">折线图</div>
-                <schart class="schart" canvasId="line" :options="options2"></schart>
-            </div>
-            <div class="schart-box">
-                <div class="content-title">饼状图</div>
-                <schart class="schart" canvasId="pie" :options="options3"></schart>
-            </div>
-            <div class="schart-box">
-                <div class="content-title">环形图</div>
-                <schart class="schart" canvasId="ring" :options="options4"></schart>
-            </div> -->
-
-
             <el-card shadow="hover">
                 <el-date-picker
                     v-model="dateBar"
@@ -55,6 +29,7 @@
 
 <script>
 import Schart from 'vue-schart';
+import axios from '../../utils/request'
 export default {
     name: 'basecharts',
     components: {
@@ -221,7 +196,7 @@ export default {
                     },
                 ]
             },
-            dateBar:[],
+            dateBar:['2020-04-13 12:05:38','2020-04-20 12:05:38'],
             pickerOptions: {
                 shortcuts: [{
                     text: '最近一周',
@@ -251,6 +226,9 @@ export default {
             }
         };
     },
+    mounted () {
+        this.getData()
+    },
     methods: {
         dateBarChange () {
             console.log(this.dateBar)
@@ -260,6 +238,19 @@ export default {
             }
             console.log(response)
         },
+        getData() {
+            const body = {
+                startTime: this.dateBar[0],
+                endTime: this.dateBar[1]
+            }
+            axios.post('/api/data/productTag',body)
+            .then(res => {
+                if(res.code !== 0) {
+                    this.$message.error(res.message)
+                    return
+                }
+            })
+        }
     }
 };
 </script>

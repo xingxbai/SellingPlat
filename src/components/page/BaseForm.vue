@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-02-18 20:02:47
- * @LastEditTime: 2020-04-18 21:04:44
+ * @LastEditTime: 2020-04-20 13:42:53
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \SellingPlat\src\components\page\BaseForm.vue
@@ -17,7 +17,11 @@
             </el-breadcrumb>
         </div>
         <div class="container">
-            <el-table :show-header="false" :data="list" style="width:100%;">
+            <div style="padding-left:10px">
+                <el-input v-model="pagination.keyWord" placeholder="请输入" style="width:256px;margin-right:20px"></el-input>
+                <el-button type="primary" icon="el-icon-search" @click="getList">搜索</el-button>
+            </div>
+            <el-table :show-header="false" :data="list" style="width:100%;margin-top:25px">
                 <el-table-column type="expand">
                     <template slot-scope="props">
                         <el-form label-position="left" inline class="demo-table-expand">
@@ -77,8 +81,9 @@ export default {
             pageIndex: 1,
             pagination: {
                 pageIndex: 1,
-                pageSize: 10
-            }
+                pageSize: 10,
+                keyWord: ''
+            },
         };
     },
     mounted () {

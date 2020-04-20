@@ -21,9 +21,9 @@
                             </template>
                         </el-table-column>
                     </el-table>
-                    <div class="handle-row">
+                    <!-- <div class="handle-row">
                         <el-button type="primary">全部标为已读</el-button>
-                    </div>
+                    </div> -->
                 </el-tab-pane>
                 <el-tab-pane :label="`已读消息(${read.length})`" name="second">
                     <template v-if="message === 'second'">
@@ -40,12 +40,12 @@
                                 </template>
                             </el-table-column>
                         </el-table>
-                        <div class="handle-row">
+                        <!-- <div class="handle-row">
                             <el-button type="danger">删除全部</el-button>
-                        </div>
+                        </div> -->
                     </template>
                 </el-tab-pane>
-                <el-tab-pane :label="`回收站(${recycle.length})`" name="third">
+                <el-tab-pane :label="`已处理(${recycle.length})`" name="third">
                     <template v-if="message === 'third'">
                         <el-table :data="recycle" :show-header="false" style="width: 100%">
                             <el-table-column>
@@ -60,9 +60,9 @@
                                 </template>
                             </el-table-column>
                         </el-table>
-                        <div class="handle-row">
-                            <el-button type="danger">清空回收站</el-button>
-                        </div>
+                        <!-- <div class="handle-row">
+                            <el-button type="danger">清空已处理</el-button>
+                        </div> -->
                     </template>
                 </el-tab-pane>
             </el-tabs>
@@ -71,30 +71,45 @@
 </template>
 
 <script>
+import axios from '../../utils/request'
     export default {
         name: 'tabs',
         data() {
             return {
                 message: 'first',
                 showHeader: false,
-                unread: [{
-                    date: '2018-04-19 20:00:00',
-                    title: '【系统通知】该系统将于今晚凌晨2点到5点进行升级维护',
-                },{
-                    date: '2018-04-19 21:00:00',
-                    title: '今晚12点整发大红包，先到先得',
-                }],
-                read: [{
-                    date: '2018-04-19 20:00:00',
-                    title: '【系统通知】该系统将于今晚凌晨2点到5点进行升级维护'
-                }],
-                recycle: [{
-                    date: '2018-04-19 20:00:00',
-                    title: '【系统通知】该系统将于今晚凌晨2点到5点进行升级维护'
-                }]
+                unread: [],
+                read: [],
+                recycle: []
             }
         },
+        mounted() {
+            this.getRead()
+            this.getUnRead()
+            this.getRecycle()
+        },
         methods: {
+            getRead() {
+                axios({
+                    url: '/api/feedback/list/read?pageIndex=1&pageSize=9999'
+                }).then(res => {
+                    this.read = res.data.list
+                })
+            },
+            getUnRead() {
+                axios({
+                    url: '/api/feedback/list/untreated?pageIndex=1&pageSize=9999'
+                }).then(res => {
+                    this.unread = res.data.list
+                })
+            },
+            getRecycle() {
+                axios({
+                    url: '/api/feedback/list/deal?pageIndex=1&pageSize=99999'
+                }).then(res => {
+                    this.recycle = res.data.list
+                })
+            },
             handleRead(index) {
                 const item = this.unread.splice(index, 1);
                 console.log(item);
