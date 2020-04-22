@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-04-22 12:49:01
- * @LastEditTime: 2020-04-22 13:15:56
+ * @LastEditTime: 2020-04-22 18:01:43
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edits
  * @FilePath: \SellingPlat\server\app.js
@@ -12,6 +12,7 @@ const axios = require('axios')
 const app = express()
 
 app.use(express.static('dist'))
+app.use(express.static(__dirname + '/dist'));
 app.use(bodyparser.urlencoded({extende:true}));
 app.use(bodyparser.json())
 let url = 'http://47.93.117.14:8080/second-hand'
