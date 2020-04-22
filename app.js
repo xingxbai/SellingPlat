@@ -1,18 +1,19 @@
 /*
  * @Author: your name
- * @Date: 2020-04-22 12:49:01
- * @LastEditTime: 2020-04-22 18:25:35
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edits
- * @FilePath: \SellingPlat\server\app.js
+ * @Date: 2020-04-22 18:25:42
+ * @LastEditTime: 2020-04-22 18:25:52
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: \SellingPlat\app.js
  */
+
 const express = require('express')
 var bodyparser = require('body-parser');
 const axios = require('axios')
 const app = express()
 const path = require('path')
 
-app.use(express.static('dist'))
+//app.use(express.static('dist'))
 //linux和windows差异
 app.use(express.static(__dirname + '/dist'));
 app.use(bodyparser.urlencoded({extende:true}));
