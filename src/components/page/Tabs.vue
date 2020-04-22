@@ -23,6 +23,21 @@
                                 <span class="message-title">{{scope.row.title}}</span>
                             </template>
                         </el-table-column>
+                        <el-table-column>
+                            <template slot-scope="scope">
+                                <span class="message-title">{{scope.row.username}}</span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column>
+                            <template slot-scope="scope">
+                                <span class="message-title">{{scope.row.email}}</span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column>
+                            <template slot-scope="scope">
+                                <span class="message-title">{{scope.row.mobile}}</span>
+                            </template>
+                        </el-table-column>
                         <el-table-column prop="date" width="180"></el-table-column>
                         <el-table-column width="120">
                             <template slot-scope="scope">
@@ -46,11 +61,26 @@
                                     </el-form>
                                 </template>
                             </el-table-column>
-                            <el-table-column>
-                                <template slot-scope="scope">
-                                    <span class="message-title">{{scope.row.title}}</span>
-                                </template>
-                            </el-table-column>
+                           <el-table-column>
+                            <template slot-scope="scope">
+                                <span class="message-title">{{scope.row.title}}</span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column>
+                            <template slot-scope="scope">
+                                <span class="message-title">{{scope.row.username}}</span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column>
+                            <template slot-scope="scope">
+                                <span class="message-title">{{scope.row.email}}</span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column>
+                            <template slot-scope="scope">
+                                <span class="message-title">{{scope.row.mobile}}</span>
+                            </template>
+                        </el-table-column>
                             <el-table-column prop="date" width="150"></el-table-column>
                             <el-table-column width="120">
                                 <template slot-scope="scope">
@@ -75,11 +105,26 @@
                                     </el-form>
                                 </template>
                             </el-table-column>
-                            <el-table-column>
-                                <template slot-scope="scope">
-                                    <span class="message-title">{{scope.row.title}}</span>
-                                </template>
-                            </el-table-column>
+                           <el-table-column>
+                            <template slot-scope="scope">
+                                <span class="message-title">{{scope.row.title}}</span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column>
+                            <template slot-scope="scope">
+                                <span class="message-title">{{scope.row.username}}</span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column>
+                            <template slot-scope="scope">
+                                <span class="message-title">{{scope.row.email}}</span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column>
+                            <template slot-scope="scope">
+                                <span class="message-title">{{scope.row.mobile}}</span>
+                            </template>
+                        </el-table-column>
                             <el-table-column prop="date" width="150"></el-table-column>
                             <el-table-column width="120">
                                 <template slot-scope="scope">

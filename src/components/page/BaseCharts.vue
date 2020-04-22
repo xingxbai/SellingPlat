@@ -231,7 +231,6 @@ export default {
     },
     methods: {
         dateBarChange () {
-            console.log(this.dateBar)
             const response = {
                 labels: this.options.labels,
                 list: this.options.datasets
