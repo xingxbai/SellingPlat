@@ -123,78 +123,7 @@ export default {
                 },
                 xRorate: 25,
                 labels: [''],
-                datasets: [
-                    {
-                        label: '家电',
-                        data: [234]
-                    },
-                    {
-                        label: '百货',
-                        data: [164]
-                    },
-                    {
-                        label: '食品',
-                        data: [144]
-                    },{
-                        label: '家电',
-                        data: [234]
-                    },
-                    {
-                        label: '百货',
-                        data: [164]
-                    },
-                    {
-                        label: '食品',
-                        data: [144]
-                    },{
-                        label: '家电',
-                        data: [234]
-                    },
-                    {
-                        label: '百货',
-                        data: [164]
-                    },
-                    {
-                        label: '食品',
-                        data: [144],
-                        fillColor: 'rgba(241, 49, 74, 0.9)',
-                    },{
-                        label: '家电',
-                        fillColor: 'rgba(215, 49, 74, 0.5)',
-                        data: [234]
-                    },
-                    {
-                        label: '百货',
-                        data: [164]
-                    },
-                    {
-                        label: '食品',
-                        data: [144]
-                    },{
-                        label: '家电',
-                        data: [234]
-                    },
-                    {
-                        label: '百货',
-                        data: [164]
-                    },
-                    {
-                        label: '食品',
-                        data: [144]
-                    },{
-                        label: '家电',
-                        data: [234]
-                    },
-                    {
-                        label: '百货',
-                        fillColor: 'rgba(241, 49, 74, 0.5)',
-                        data: [164]
-                    },
-                    {
-                        label: '食品',
-                        data: [144]
-                    },
-                ]
+                datasets: []
             },
             dateBar:['2020-04-13 12:05:38','2020-04-20 12:05:38'],
             pickerOptions: {
@@ -231,11 +160,7 @@ export default {
     },
     methods: {
         dateBarChange () {
-            const response = {
-                labels: this.options.labels,
-                list: this.options.datasets
-            }
-            console.log(response)
+            this.getData()
         },
         getData() {
             const body = {
@@ -248,6 +173,45 @@ export default {
                     this.$message.error(res.message)
                     return
                 }
+                const options = {
+                    type: 'bar',
+                    title: {
+                        text: '各品类销售图'
+                    },
+                    xRorate: 25,
+                    labels: [''],
+                    datasets: []
+                }
+                this.$nextTick(() => {
+                    if (res.data.length === 0) {
+                        const mock = [ {label: "农用/园艺", data: [0]},
+                            {label: "电子/网络", data: [0]},
+                            {label: "五金工具", data: [0]},
+                            {label: "生鲜水果", data: [0]},
+                            {label: "宠物/用品", data: [0]},
+                            {label: "动漫/周边", data: [0]},
+                            {label: "技能服务", data: [0]},
+                            {label: "服饰/鞋包", data: [0]},
+                            {label: "其他闲置", data: [0],fillColor : "rgba(255, 235, 60, 1)"},
+                            {label: "珠宝/饰品", data: [0],fillColor: "rgba(241, 49, 74, 0.5)"}
+                        ]
+                        options.datasets = mock
+                        this.options = options
+                        return
+                    }
+                    options.datasets = res.data
+                    options.datasets.forEach((item,index) => {
+                        item.data = [item.total]
+                        if(index === 9) {
+                            item.fillColor = "rgba(241, 49, 74, 0.5)"
+                        }
+                        if(index === 8) {
+                            item.fillColor = "rgba(255, 235, 60, 1)"
+                        }
+                    })
+                    this.options = options
+                });
+                
             })
         }
     }

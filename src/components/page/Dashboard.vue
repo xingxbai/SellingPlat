@@ -115,7 +115,7 @@
                     <schart ref="bar" class="schart" canvasId="bar" :options="options"></schart>
                 </el-card>
             </el-col> -->
-            <el-col :span="24">
+            <!-- <el-col :span="24">
                 <el-card shadow="hover">
                     <el-date-picker
                         v-model="dateLine"
@@ -131,7 +131,7 @@
                     </el-date-picker>
                     <schart ref="line" class="schart" canvasId="line" :options="options2"></schart>
                 </el-card>
-            </el-col>
+            </el-col> -->
         </el-row>
         <el-dialog
             title="用户反馈"
