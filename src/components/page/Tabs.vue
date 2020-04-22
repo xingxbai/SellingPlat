@@ -17,7 +17,7 @@
                         <el-table-column prop="date" width="180"></el-table-column>
                         <el-table-column width="120">
                             <template slot-scope="scope">
-                                <el-button size="small" @click="handleRead(scope.$index)">标为已读</el-button>
+                                <el-button size="small" @click="handleRead(scope.row)">标为已读</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -56,7 +56,7 @@
                             <el-table-column prop="date" width="150"></el-table-column>
                             <el-table-column width="120">
                                 <template slot-scope="scope">
-                                    <el-button @click="handleRestore(scope.$index)">还原</el-button>
+                                    <el-button @click="handleRestore(scope.row)">删除</el-button>
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -110,18 +110,36 @@ import axios from '../../utils/request'
                     this.recycle = res.data.list
                 })
             },
-            handleRead(index) {
-                const item = this.unread.splice(index, 1);
-                console.log(item);
-                this.read = item.concat(this.read);
+            handleRead(value) {
+                const body = {
+                    ids: [value.feedbackId]
+                }
+                axios.post('/api/feedback/update/status', body)
+                .then( res => {
+                    if (res.code !== 0 )  {
+                        this.$message.error(res.message)
+                        return
+                    }
+                    this.getUnRead()
+                    this.getRead()
+                })
             },
             handleDel(index) {
                 const item = this.read.splice(index, 1);
                 this.recycle = item.concat(this.recycle);
             },
-            handleRestore(index) {
-                const item = this.recycle.splice(index, 1);
-                this.read = item.concat(this.read);
+            handleRestore(value) {
+                const body = {
+                    ids: [value.feedbackId]
+                }
+                axios.post('/api/feedback/del', body)
+                .then( res => {
+                    if (res.code !== 0 )  {
+                        this.$message.error(res.message)
+                        return
+                    }
+                    this.getRecycle()
+                })
             }
         },
         computed: {
