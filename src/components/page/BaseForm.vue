@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-02-18 20:02:47
- * @LastEditTime: 2020-04-20 13:42:53
+ * @LastEditTime: 2020-04-22 12:12:13
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \SellingPlat\src\components\page\BaseForm.vue
@@ -45,12 +45,18 @@
                         >{{scope.row.title}}</div>
                     </template>
                 </el-table-column>
-                <el-table-column  width="300">
-                    <template slot-scope="scope">
+                <el-table-column  width="100">
+                    <!-- <template slot-scope="scope">
                         <div
                             class="todo-item"
                             :class="{'todo-item-del': scope.row.creatTime}"
                         >{{scope.row.creatTime}}</div>
+                    </template> -->
+                    <template slot-scope="scope">
+                        <div >
+                            <el-button @click="publish(scope.row)" v-if="scope.row.type === 0 ">发布</el-button>
+                            <el-button @click="publish(scope.row)" v-else :disabled="scope.row.type !== 0">已发布</el-button>
+                        </div>
                     </template>
                 </el-table-column>
                     </el-table>
@@ -65,7 +71,6 @@
                             :total="total">
                     </el-pagination>
                     </div>
-                   
         </div>
     </div>
 </template>
@@ -122,6 +127,13 @@ export default {
         handleSizeChange (value) {
             this.pagination.pageSize = value
             this.getList()
+        },
+        publish (value) {
+            axios({
+                url: `/api/notice/update/${value.noticeId}`
+            }).then(res=>{
+                this.getList()
+            })
         }
     }
 };
