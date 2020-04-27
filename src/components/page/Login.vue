@@ -23,7 +23,7 @@
                 </div>
                 <p class="login-tips">Tips : 用户名和密码随便填。</p>
             </el-form>
-            <a href="../../assets/xingxbai.apk">下載安卓</a>
+            <!-- <a href="../../../public/xingxbai.apk">下載安卓</a> -->
         </div>
     </div>
 </template>
