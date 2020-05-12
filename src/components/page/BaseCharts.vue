@@ -46,7 +46,7 @@ export default {
                 labels: [''],
                 datasets: []
             },
-            dateBar:['2020-04-13 12:05:38','2020-04-20 12:05:38'],
+            dateBar:['2020-04-13 12:05:38','2020-05-16 12:05:38'],
             pickerOptions: {
                 shortcuts: [{
                     text: '最近一周',

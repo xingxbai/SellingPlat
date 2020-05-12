@@ -113,10 +113,6 @@ export default {
                 }
             ],
             tableData: [{
-                userId:2574,
-                nickName: 999,
-                username: 123456789,
-                password: 123456789
             }],
             selectOptions: [{
                     label: '所有',
