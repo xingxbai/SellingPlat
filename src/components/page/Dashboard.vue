@@ -19,7 +19,7 @@
                         <span>中山</span>
                     </div>
                 </el-card>
-                <el-card shadow="hover" style="height:472px;">
+                <el-card shadow="hover" style="height:462px;">
                     <div slot="header" class="clearfix">
                         <span>商品详情</span>
                     </div>
