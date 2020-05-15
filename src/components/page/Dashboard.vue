@@ -19,7 +19,7 @@
                         <span>中山</span>
                     </div>
                 </el-card>
-                <el-card shadow="hover" style="height:462px;">
+                <el-card shadow="hover" style="height:472px;">
                     <div slot="header" class="clearfix">
                         <span>商品详情</span>
                     </div>
@@ -422,7 +422,8 @@ export default {
                 }
                 this.goodsDetail = res.data
                 this.goodsDetail.map( item=> {
-                    item.total = item.total*100
+                    
+                    item.total = parseInt(item.total*100)
                 })
             })
         },
